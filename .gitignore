@@ -1,6 +1,12 @@
 # generated types
 .astro/
 
+# zed setting folder
+.zed/
+
+# archive
+._archive/
+
 # dependencies
 node_modules/
 
