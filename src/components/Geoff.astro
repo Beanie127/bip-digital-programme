@@ -1,0 +1,49 @@
+<dialog
+	id="geoff"
+	closedby="any">
+	<img
+		id="geoff-pic"
+		src="/portraits/geoff-monk-2.webp"
+		alt="Geoff in a white frilly shirt, holding an old-fashioned sea lantern."
+	/>
+	<button id="geoff-close-btn">Close</button>
+</dialog>
+<style>
+	#geoff {
+		padding: 0;
+		border: 0;
+		position: relative;
+	}
+	#geoff-pic {
+		display: block;
+		inline-size: 100%;
+		padding: 0;
+		margin: 0;
+	}
+	#geoff-close-btn {
+		position: absolute;
+		inset-block-end: 1rem;
+		inset-inline: 1rem;
+		font-size: 1rem;
+		font-family: inherit;
+		display: block;
+		text-align: center;
+	}
+</style>
+<script is:inline>
+	const geoffDialog = document.querySelector('#geoff');
+	const geoffClose = document.querySelector('#geoff-close-btn');
+	document.addEventListener('DOMContentLoaded', () => {
+		const geoffTime = Date.now() > Date.parse('2025-11-08 18:00');
+		console.log(
+			geoffTime ? "It's Geoff Time!" : "It's not Geoff Time yet..."
+		);
+		if (localStorage.getItem('Geoff Shown') == 'true') return;
+		if (!geoffTime) return;
+		localStorage.setItem('Geoff Shown', 'true');
+		geoffDialog.showModal();
+	});
+	geoffClose.addEventListener('click', () => {
+		geoffDialog.close();
+	});
+</script>

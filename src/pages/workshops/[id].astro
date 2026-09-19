@@ -1,0 +1,20 @@
+---
+import type { GetStaticPaths } from 'astro';
+import { getCollection, render } from 'astro:content';
+import Layout from '../../layouts/Layout.astro';
+
+export async function getStaticPaths() {
+	const workshops = await getCollection('workshops');
+	return workshops.map((workshop) => ({
+		params: { id: workshop.id },
+		props: { workshop },
+	}));
+}
+
+const { workshop } = Astro.props;
+const { Content } = await render(workshop);
+---
+
+<Layout title={workshop.data.title}>
+	<Content />
+</Layout>

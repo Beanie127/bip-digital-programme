@@ -1,0 +1,83 @@
+---
+import { getCollection } from 'astro:content';
+
+const workshops = await getCollection('workshops');
+workshops.sort((a, b) => {
+	if (a.data.title < b.data.title) return -1;
+	if (a.data.title > b.data.title) return 1;
+	return 0;
+});
+---
+
+<article>
+	<h2>Timetable by Session</h2>
+	<p>This alternative view shows when each workshop repeats at a glance!</p>
+	<table>
+		<thead
+			><tr>
+				<th>Workshop</th>
+				<th>Session 1</th>
+				<th>Session 2</th>
+				<th>Session 3</th>
+				<th>Session 4</th>
+				<th>Session 5</th>
+			</tr></thead
+		>
+		<tbody>
+			{
+				workshops
+					.filter((workshop) => workshop.data.host == 'tom-hodge')
+					.reverse()
+					.map((workshop) => (
+						<tr>
+							<td>{workshop.data.title}</td>
+							{workshop.data.sessions?.map((session) => (
+								<td>{session}</td>
+							))}
+						</tr>
+					))
+			}
+			{
+				workshops
+					.filter(
+						(workshop) =>
+							!workshop.data.title.includes('Jam') &&
+							workshop.data.host != 'tom-hodge',
+					)
+					.map((workshop) => (
+						<tr>
+							<td>{workshop.data.title}</td>
+							{workshop.data.sessions?.map((session) => (
+								<td>{session}</td>
+							))}
+						</tr>
+					))
+			}
+			{
+				workshops
+					.filter((workshop) => workshop.data.title.includes('Jam'))
+					.map((workshop) => (
+						<tr>
+							<td>{workshop.data.title}</td>
+							{workshop.data.sessions?.map((session) => (
+								<td>{session}</td>
+							))}
+						</tr>
+					))
+			}
+		</tbody>
+	</table>
+</article>
+<style>
+	table {
+		border-collapse: collapse;
+	}
+	th,
+	td {
+		padding: 0.5ch 1ch;
+		border: thin solid lightgray;
+	}
+	td:not(:first-of-type) {
+		text-align: center;
+	}
+</style>

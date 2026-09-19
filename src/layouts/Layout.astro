@@ -1,0 +1,265 @@
+---
+import Nav from "../components/Nav.astro";
+const { title } = Astro.props;
+---
+
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width" />
+        <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+        <link rel="manifest" href="/manifest.json" />
+        <title>
+			{title + ' | BIP Programme'}
+		</title>
+        <style is:global>
+            @font-face {
+                font-family: "Maple Mono";
+                src:
+                    url("/fonts/Maple-Mono-Regular.woff") format(woff),
+                    url("/fonts/Maple-Mono-Regular.woff2") format(woff2);
+            }
+
+            @font-face {
+                font-family: "Commissioner";
+                src: url("/fonts/Commissioner.woff2") format(woff2);
+            }
+            @view-transition {
+                navigation: auto;
+            }
+            *,
+            *::before,
+            *::after {
+                box-sizing: border-box;
+            }
+
+            /* CUSTOM PROPS */
+
+            :root {
+                --pink: light-dark(hsl(337 90 94), hsl(337 40 12));
+                --green: light-dark(hsl(91 90 92), hsl(91 50 10));
+                --yellow: light-dark(hsl(37 90 92), hsl(37 50 10));
+                --blue: light-dark(hsl(200 90 94), hsl(200 50 12));
+                --red: light-dark(hsl(328 70 50), hsl(328 60 70));
+                --purple: light-dark(hsl(328 70 30), hsl(328 60 80));
+                --background: light-dark(hsl(0 0 97), hsl(0 5 6));
+                --text: light-dark(hsl(0 0 8), hsl(0 0 80));
+                interpolate-size: allow-keywords;
+                color-scheme: light;
+            }
+
+            /* TYPOGRAPHY */
+
+            html {
+                font-family: "Commissioner", system-ui;
+                font-size: clamp(1rem, 0.8rem + 0.4vw, 1.3rem);
+                background: var(--background);
+                color: var(--text);
+                scroll-behavior: smooth;
+                scroll-padding-top: 4rem;
+            }
+
+            body {
+                margin: 0;
+                padding: 0;
+            }
+
+            h1,
+            h2,
+            h3 {
+                font-feature-settings: "FLAR" 100 "VOLM" 100;
+                margin-block-start: 1em;
+                margin-block-end: 0.5em;
+            }
+
+            h1 {
+                color: var(--red);
+                font-weight: 900;
+                margin: 0 0.5ch 5px;
+            }
+
+            h2 {
+                color: var(--purple);
+                margin-block: 1em 0.25em;
+                font-weight: 800;
+                font-size: 1.4rem;
+            }
+
+            h3 {
+                color: var(--purple);
+                font-size: 1rem;
+            }
+
+            p {
+                margin-block: 0.5em;
+            }
+
+            em {
+                font-style: normal;
+                font-variation-settings: "slnt" -6;
+            }
+
+            ul {
+                padding-inline-start: 25px;
+            }
+
+            li::marker {
+                color: var(--red);
+            }
+
+            /* LAYOUT */
+
+            main {
+                margin-inline: auto;
+                margin-block: 2rem;
+                inline-size: min(calc(100% - 1rem), 85ch);
+            }
+
+            /* ELEMENTS */
+
+            button,
+            .button {
+                border-radius: 5px;
+                border: thin solid light-dark(lightgray, hsl(0 0 20));
+                background: light-dark(whitesmoke, hsl(0 0 10));
+                padding: 5px 10px;
+                font-family: inherit;
+                text-decoration: none;
+            }
+
+            a {
+                color: var(--purple);
+            }
+
+            #btn-open-menu {
+                font-size: 1rem;
+                font-weight: 600;
+                text-transform: uppercase;
+            }
+
+            ul:has(details, .button) {
+                list-style: none;
+                padding-inline-start: 0;
+            }
+
+            li {
+                margin-block: 1ch;
+            }
+
+            li .button {
+                display: block;
+                color: inherit;
+                margin-inline: auto;
+                /* margin-block-end: 0.5ch; */
+                font-size: 1.1em;
+                border: 0;
+                /* border-inline-start: 5px solid var(--pink, hsl(0 100% 90%)); */
+                text-wrap: balance;
+            }
+
+            img {
+                float: left;
+                margin-inline-end: 1ch;
+                margin-block-end: 1ch;
+                inline-size: clamp(12ch, 40%, 25ch);
+                line-height: 0;
+            }
+
+            select {
+                font-size: 1rem;
+                font-family: inherit;
+                inline-size: 100%;
+                block-size: 1.5lh;
+            }
+
+            details {
+                overflow: hidden;
+                padding: 10px;
+                border-block: thin solid lightgray;
+            }
+
+            summary {
+                font-size: 1.1em;
+                cursor: default;
+            }
+
+            details + details {
+                border-block-start: 0;
+            }
+
+            details p.subtitle {
+                margin-block-start: 0.25rem;
+            }
+
+            details::details-content {
+                block-size: 0;
+                transition:
+                    block-size 600ms,
+                    content-visibility 600ms;
+                transition-behavior: allow-discrete;
+            }
+
+            details[open] {
+                background: hsl(from var(--pink) h s l / 0.5);
+            }
+
+            details[open]::details-content {
+                block-size: auto;
+            }
+
+            details[open] summary {
+                font-weight: bold;
+            }
+
+            summary::marker {
+                color: var(--red);
+            }
+
+            .subtitle {
+                font-variation-settings: "slnt" -6;
+            }
+
+            /* DEBUGGING */
+
+            #debug {
+                position: fixed;
+                top: 5rem;
+                left: 1rem;
+                /* display: none; */
+            }
+
+            #debug button {
+                display: block;
+            }
+        </style>
+    </head>
+
+    <body>
+        <Nav {title} />
+        <main>
+            <slot />
+            {title != "Your Schedule" && (
+                <div style="margin-block:2rem">
+                    <a href="/">← Go back to schedule</a>
+                </div>
+            )}
+        </main>
+
+        <script is:inline>
+            window.addEventListener("load", async () => {
+                // check if the browser supports serviceworkers
+                // if so, register /serviceworker.js
+                if ("serviceWorker" in navigator) {
+                    try {
+                        await navigator.serviceWorker.register(
+                            "/serviceworker.js",
+                        );
+                    } catch (err) {
+                        console.log("ServiceWorker registration failed", err);
+                    }
+                }
+            });
+        </script>
+    </body>
+</html>

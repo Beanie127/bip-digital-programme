@@ -1,0 +1,30 @@
+---
+import { getCollection } from 'astro:content';
+import Layout from '../layouts/Layout.astro';
+import { render } from 'astro:content';
+const shows = await getCollection("shows")
+---
+
+<Layout title="Entertainment">
+		<p
+		>We host shows on Friday and Saturday nights, made up of performing
+		groups from the attendees. On Friday, we ask the weekend’s teachers and
+		organisers to perform. On Saturday, attending groups put on shows, plus
+		The Ensemble, which is formed at BIP and coached on a brand new-to-them
+		format during the Saturday sessions.</p
+	>
+	<h2 id="friday">Friday Night Entertainment</h2>
+     {shows.filter(show => show.data.day == "friday").sort((a, b) => a.data.runningOrder - b.data.runningOrder).map(async show => {
+        const {Content} = await render(show)
+        return (
+        <h3>{show.data.title}</h3>
+        <Content/>
+    )})}
+	<h2 id="saturday">Saturday Night Entertainment</h2>
+    {shows.filter(show => show.data.day == "saturday").sort((a, b) => a.data.runningOrder - b.data.runningOrder).map(async show => {
+        const {Content} = await render(show)
+        return (
+        <h3>{show.data.title}</h3>
+        <Content/>
+    )})}
+</Layout>

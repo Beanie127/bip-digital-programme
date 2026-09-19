@@ -1,0 +1,75 @@
+<style is:global>
+	.is-favourite,
+	.is-favourite:open {
+		background: hsl(from gold h s l / 0.25);
+	}
+
+	.is-favourite summary::before {
+		content: '\2605';
+		padding-inline-end: 0.5ch;
+	}
+</style>
+<script is:inline>
+	let favourites = { 1: null, 2: null, 3: null, 4: null, 5: null };
+
+	function saveFavourites() {
+		localStorage.setItem('favourites', JSON.stringify(favourites));
+	}
+
+	function loadFavourites() {
+		const data = JSON.parse(localStorage.getItem('favourites'));
+		if (!data) return;
+		for (const session in favourites) {
+			console.log(data[session]);
+			favourites[session] = data[session];
+		}
+	}
+
+	function setFavourite(session, workshop) {
+		console.log('setting session', session, 'favourite to', workshop);
+		favourites[session] = workshop;
+		saveFavourites();
+	}
+
+	function deleteFavourite(session) {
+		favourites[session] = null;
+		saveFavourites();
+	}
+
+	function clearFavouriteClass() {
+		document
+			.querySelectorAll('.is-favourite')
+			.forEach((el) => el.classList.remove('is-favourite'));
+	}
+
+	function renderFavourites() {
+		clearFavouriteClass();
+		loadFavourites();
+		for (const session in favourites) {
+			const details = document.getElementById(favourites[session]?.id);
+			if (!details) continue;
+			details.classList.add('is-favourite');
+			details.querySelector('button.favourite').textContent =
+				'Unfavourite';
+		}
+	}
+
+	renderFavourites();
+
+	document.addEventListener('click', (e) => {
+		if (!e.target.classList.contains('favourite')) return;
+		const id = e.target.dataset.favourite;
+		const session = id.split('-')[1];
+		const parent = document.querySelector(`#${id}`);
+		const name = parent.querySelector('summary').textContent;
+		if (favourites[session]?.id == id) {
+			deleteFavourite(session);
+			e.target.textContent = 'Favourite';
+		} else {
+			setFavourite(session, { id: id, name: name });
+			e.target.textContent = 'Unfavourite';
+		}
+		renderFavourites();
+	});
+	window.addEventListener('pageshow', renderFavourites);
+</script>

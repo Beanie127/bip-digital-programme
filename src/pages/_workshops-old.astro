@@ -1,0 +1,92 @@
+---
+import { getCollection, render } from 'astro:content';
+import Layout from '../layouts/Layout.astro';
+import ScriptFave from '../components/ScriptFave.astro';
+import Timetable2 from '../components/Timetable2.astro';
+const sessions = await getCollection('sessions');
+const workshops = await getCollection('workshops');
+const people = await getCollection('people');
+---
+
+<Layout title="Workshops">
+	<p>
+		There are five workshop slots throughout the weekend: three on Saturday,
+		and two on Sunday. We aim to programme a mix of styles and topics,
+		looking at specific formats, performance skills and genres. There’s also
+		a jam option in every session: no feedback, just play!
+	</p>
+	<p>
+		This schedule tool lets you favourite a workshop for each session. This
+		does not guarantee you a place, it's just for planning your weekend!
+	</p>
+	<p>
+		You can <a href="/schedule-1page.pdf"
+			>download a PDF of the timetable here</a
+		> to print off at home, or keep on your phone for easy reference.
+	</p>
+	{
+		sessions.map((session) => (
+			<section>
+				<h2 id={`session-${session.data.id}`}>
+					Session {session.data.id}
+				</h2>
+				{session.data.workshops.map(async (w) => {
+					const workshop = workshops.find((x) => x.id == w.id)!;
+					const { Content } = await render(workshop);
+					return (
+						<details
+							name={`session-${session.id}`}
+							id={`session-${session.id}-${workshop.id}`}>
+							<summary>{workshop.data.title}</summary>
+							<p class="subtitle">
+								in {w.venue} with{' '}
+								<a href={`/people/${workshop.data.host}`}>
+									{
+										people.find(
+											(person) =>
+												person.id == workshop.data.host,
+										)?.data.name
+									}
+								</a>
+							</p>
+							<Content />
+							<p>
+								{workshop.data.sessions ?
+									<em>
+										Repeats session
+										{workshops
+											.find((x) => x.id == w.id)
+											?.data.sessions?.find(
+												(s) =>
+													s.toString() !== session.id,
+											)}
+									</em>
+								:	<em>One-off, not repeated</em>}
+							</p>
+							<button
+								class="favourite"
+								data-favourite={`session-${session.id}-${workshop.id}`}>
+								Favourite
+							</button>
+						</details>
+					);
+				})}
+			</section>
+		))
+	}
+	<style>
+		section {
+			padding-block: 1rem;
+			border-radius: 5px;
+		}
+
+		h3 {
+			margin-block-end: 0;
+		}
+
+		h3 + p {
+			margin-block-start: 0;
+		}
+	</style>
+	<ScriptFave2 />
+</Layout>

@@ -1,0 +1,47 @@
+<dialog id="welcome">
+	<h2>BIP Digital Programme</h2>
+	<p>
+		Welcome to the BIP digital programme! This site has useful information
+		about the event and an interactive timetable where you can favourite
+		workshops to help plan your weekend.
+	</p>
+	<p
+		>If this is your first time at BIP, check out the FAQs section to learn
+		what we're all about.</p
+	>
+	<p>
+		You can download this site as an app onto your phone! Just open the
+		options/sharing menu for this tab and hit "Add to Home Screen" or
+		"Install app".
+	</p>
+	<p>
+		<label for="skip-welcome">
+			<input
+				type="checkbox"
+				name="skip-welcome"
+				id="skip-welcome"
+			/>Don't show this next time
+		</label>
+	</p>
+	<button id="close-btn">Close</button>
+</dialog>
+<script is:inline>
+	const welcomeDialog = document.querySelector('#welcome');
+	const closeBtn = document.querySelector('#close-btn');
+	const skipWelcome = document.querySelector('#skip-welcome');
+	document.addEventListener('DOMContentLoaded', () => {
+		const hideWelcome = localStorage.getItem('hideWelcome');
+		if (hideWelcome == 'true') return;
+		welcomeDialog.showModal();
+	});
+	closeBtn.addEventListener('click', () => {
+		welcomeDialog.close();
+	});
+	skipWelcome.addEventListener('change', () => {
+		if (skipWelcome.checked) {
+			localStorage.setItem('hideWelcome', 'true');
+		} else if (!skipWelcome.checked) {
+			localStorage.removeItem('hideWelcome');
+		}
+	});
+</script>

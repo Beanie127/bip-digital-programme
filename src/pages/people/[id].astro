@@ -1,0 +1,26 @@
+---
+import { getCollection, render } from "astro:content";
+import Layout from "../../layouts/Layout.astro";
+import { Image } from "astro:assets";
+
+export async function getStaticPaths() {
+    const people = await getCollection("people");
+    return people.map((person) => ({
+        params: { id: person.id },
+        props: { person },
+    }));
+}
+const { person } = Astro.props;
+const { Content } = await render(person);
+---
+
+<Layout title={person.data.name}>
+    {
+        person.data.portrait ? (
+            <Image src={person.data.portrait} alt={person.data.name} />
+        ) : (
+            ""
+        )
+    }
+    <Content />
+</Layout>

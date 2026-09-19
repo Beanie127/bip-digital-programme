@@ -1,0 +1,26 @@
+---
+import { getCollection } from 'astro:content';
+import Layout from '../../layouts/Layout.astro';
+const people = await getCollection('people');
+people.sort((a, b) => {
+	if (a.id < b.id) return -1;
+	if (a.id > b.id) return 1;
+	return 0;
+});
+---
+
+<Layout title="people">
+	<ul>
+		{
+			people.map((person) => (
+				<li>
+					<a
+						class="button"
+						href={`/people/${person.id}`}>
+						{person.data.name}
+					</a>
+				</li>
+			))
+		}
+	</ul>
+</Layout>

@@ -1,0 +1,73 @@
+---
+import { getCollection } from 'astro:content';
+import Layout from '../../layouts/Layout.astro';
+import { render } from 'astro:content';
+import ScriptFave from '../../components/ScriptFave.astro';
+
+export async function getStaticPaths() {
+	const workshops = await getCollection('workshops');
+	const people = await getCollection('people');
+	const sessions = [1, 2, 3, 4, 5];
+	return sessions.map((session) => ({
+		params: { id: session.toString() },
+		props: {
+			session,
+			workshops,
+			people,
+		},
+	}));
+}
+const { session, workshops, people } = Astro.props;
+---
+
+<Layout title={`Session ${session}`}>
+	<ul>
+		{
+			workshops
+				.filter((w) => w.data.sessions[session - 1])
+				.map(async (workshop) => {
+					const { Content } = await render(workshop);
+					return (
+						<details
+							name={`session-${session}`}
+							id={`session-${session}-${workshop.id}`}>
+							<summary>{workshop.data.title}</summary>
+							<p class="subtitle">
+								in {workshop.data.sessions[session - 1]} with{' '}
+								{typeof workshop.data.host == 'string' ?
+									<a href={`/people/${workshop.data.host}`}>
+										{
+											people.find(
+												(person) =>
+													person.id ==
+													workshop.data.host,
+											)?.data.name
+										}
+									</a>
+								:	workshop.data.host.map((host) => (
+										<a href={`/people/${host}`}>
+											{
+												people.find(
+													(person) =>
+														person.id == host,
+												)?.data.name
+											}
+										</a><span>{workshop.data.host.indexOf(host) + 1 < workshop.data.host.length ? " and " :""}</span>
+									))
+								}
+							</p>
+							<Content />
+							<button
+								class="favourite"
+								data-favourite={`session-${session}-${workshop.id}`}>
+								Favourite
+							</button>
+						</details>
+					);
+				})
+		}
+	</ul>
+
+	<p><a href="/workshops">View all workshop sessions</a></p>
+	<ScriptFave />
+</Layout>
