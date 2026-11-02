@@ -1,7 +1,7 @@
 ---
 title: Advanced Music
 host: tom-hodge
-sessions: [false, 'Howden', false, false, false]
+sessions: [false, "Howden", false, false, false]
 ---
 
 For those with a lot of musical improv experience!

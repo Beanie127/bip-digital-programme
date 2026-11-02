@@ -4,13 +4,13 @@
   "version": "0.0.1",
   "scripts": {
     "dev": "astro dev",
-    "build": "astro build",
+    "build": "astro build --timings",
     "preview": "astro preview",
     "astro": "astro",
     "generateAndBundleSW": "SW_DIST_PATH=src/pwa npx workbox-cli injectManifest node_modules/webapp-astro-pwa/src/pwa/workbox.config.cjs && node node_modules/webapp-astro-pwa/src/pwa/bundle-sw.mjs"
   },
   "dependencies": {
-    "@astrojs/compiler-rs": "^0.4.1",
-    "astro": "^7.3.3"
+    "@astrojs/compiler-rs": "^0.5.2",
+    "astro": "^7.4.0"
   }
 }

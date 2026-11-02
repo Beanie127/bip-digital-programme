@@ -1,6 +1,10 @@
 ---
 name: Adam Hodgson
-portrait: '../../assets/portraits/adam-hodgson.webp'
+portrait: "../../assets/portraits/adam-hodgson.webp"
 ---
 
-An alumnus of East 15 acting school in the UK, specialising in extended improvisation, Adam has performed professionally all over the world since 2006. Based in Derby, UK, Adam leads _Yes! Let's Build a Barn_ improv; is the other half of _Witless_ twoprov; established Ram Jam improv nights, and is currently immersed in multiple acting collaborations across the East Midlands and beyond.
+I’ve been an actor for 20+ years, training at East 15 (alma mater of Mike Leigh). For 8 years, I’ve run improv workshops, jams, and gigs in Derby, and toured the UK and Europe with _Impromptwo & Co_.
+
+Deeply inspired by Keith Johnstone, I’m a REACT! alumnus having studied at The Loose Moose Theatre in Canada where it all began.
+
+I’m incredibly proud to have official ITI permission to produce the _Maestro_ event for this year’s BIP delegates!

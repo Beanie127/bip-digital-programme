@@ -1,7 +1,7 @@
 ---
 title: Basic Music
 host: tom-hodge
-sessions: ['Howden', false, false, false, false]
+sessions: ["Howden", false, false, false, false, "Howden"]
 ---
 
 Friendly introduction to improvising songs, the core of musical improv. Mainly group exercises, good energetic start to the day.
